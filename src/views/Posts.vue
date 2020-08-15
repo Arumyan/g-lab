@@ -34,8 +34,8 @@
 import Post from '@/components/Post.vue'
 import Loader from '@/components/Loader.vue'
 import Error from '@/components/Error.vue'
-import axios from 'axios';
 import paginateMixin from '@/mixins/paginate.mixin.js'
+import {postsAPI} from '@/api/api'
 
 export default {
   name: 'Posts',
@@ -53,16 +53,13 @@ export default {
     }
   },
   mounted() {
-    axios
-      .get('https://jsonplaceholder.typicode.com/posts')
-      .then(response => {
-        this.setupPagination(response.data)
-        this.loading = false
-      })
-      .catch(() => {
+    postsAPI.getPosts().then((data) => {
+      this.setupPagination(data)
+      this.loading = false
+    }).catch(() => {
         this.loading = false
         this.error = true
-      });
+    });
   }
 }
 </script>

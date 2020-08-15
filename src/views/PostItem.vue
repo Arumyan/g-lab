@@ -18,9 +18,9 @@
 
 <script>
 // @ is an alias to /src
-import axios from 'axios';
 import Loader from '@/components/Loader';
 import Error from '@/components/Error'
+import {postsAPI, commentAPI} from '@/api/api'
 
 export default {
   name: 'PostItem',
@@ -39,21 +39,20 @@ export default {
   mounted() {
     const postId = this.$route.params.id;
 
-    axios
-      .get(`https://jsonplaceholder.typicode.com/posts/${postId}`)
-      .then(response => {this.post = response.data; this.loading = false})
-      .catch(() => {
+    postsAPI.getPost(postId).then((data) => {
+      this.post = data; 
+      this.loading = false;
+    }).catch(() => {
         this.loading = false
         this.error = true
-      });
-    
-    axios
-      .get(`https://jsonplaceholder.typicode.com/comments?postId=${postId}`)
-      .then(response => {this.comments = response.data})
-      .catch(() => {
+    });
+
+    commentAPI.getComments(postId).then((data) => {
+      this.comments = data
+    }).catch(() => {
         this.loading = false
         this.error = true
-      });
+    });
   }
 }
 </script>
