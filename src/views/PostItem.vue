@@ -1,5 +1,6 @@
 <template>
-  <div class="post-item" v-if="!loading">
+  <Error v-if="error"/>
+  <div class="post-item" v-else-if="!loading">
     <h1 class="post-item__title">{{post.title}}</h1>
     <p class="post-item__text">{{post.body}}</p>
 
@@ -12,22 +13,27 @@
       </div>
     </div>
   </div>
+  <Loader v-else />
 </template>
 
 <script>
 // @ is an alias to /src
 import axios from 'axios';
+import Loader from '@/components/Loader';
+import Error from '@/components/Error'
 
 export default {
   name: 'PostItem',
   components: {
-    
+    Loader,
+    Error
   },
   data() {
     return {
       post: null,
       comments: null,
-      loading: true
+      loading: true,
+      error: false
     }
   },
   mounted() {
@@ -36,10 +42,18 @@ export default {
     axios
       .get(`https://jsonplaceholder.typicode.com/posts/${postId}`)
       .then(response => {this.post = response.data; this.loading = false})
+      .catch(() => {
+        this.loading = false
+        this.error = true
+      });
     
     axios
       .get(`https://jsonplaceholder.typicode.com/comments?postId=${postId}`)
       .then(response => {this.comments = response.data})
+      .catch(() => {
+        this.loading = false
+        this.error = true
+      });
   }
 }
 </script>

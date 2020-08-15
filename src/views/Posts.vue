@@ -1,5 +1,6 @@
 <template>
-  <div class="posts">
+  <Error v-if="error"/>
+  <div class="posts" v-else-if="!loading">
     <h1>Posts</h1>
 
     <div class="posts_container">
@@ -24,11 +25,15 @@
     </div>
     
   </div>
+
+  <Loader v-else/>
 </template>
 
 <script>
 // @ is an alias to /src
 import Post from '@/components/Post.vue'
+import Loader from '@/components/Loader.vue'
+import Error from '@/components/Error.vue'
 import axios from 'axios';
 import paginateMixin from '@/mixins/paginate.mixin.js'
 
@@ -36,11 +41,15 @@ export default {
   name: 'Posts',
   mixins: [paginateMixin],
   components: {
-    Post
+    Post,
+    Loader,
+    Error
   },
   data() {
     return {
-      posts: []
+      posts: [],
+      loading: true,
+      error: null
     }
   },
   mounted() {
@@ -48,7 +57,12 @@ export default {
       .get('https://jsonplaceholder.typicode.com/posts')
       .then(response => {
         this.setupPagination(response.data)
-    })
+        this.loading = false
+      })
+      .catch(() => {
+        this.loading = false
+        this.error = true
+      });
   }
 }
 </script>
