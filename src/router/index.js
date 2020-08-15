@@ -13,10 +13,10 @@ Vue.use(VueRouter)
   {
     path: '/posts',
     name: 'posts',
-    component: () => import('../views/Posts.vue')
+    component: () => import('../views/Posts.vue'),
   },
   {
-    path: '/post/:id',
+    path: '/posts/:id',
     name: 'post',
     component: () => import('../views/PostItem.vue')
   }

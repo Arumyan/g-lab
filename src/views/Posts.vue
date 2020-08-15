@@ -1,17 +1,28 @@
 <template>
   <div class="posts">
-    <Post v-for="post in items" :key="post.id" :post="post" />
-    <Paginate
+    <h1>Posts</h1>
+
+    <div class="posts_container">
+      <Post v-for="post in items" :key="post.id" :post="post" />
+    </div>
+    
+    <div class="paginate-wrapper">
+      <Paginate
         v-model="page"
         :page-count="pageCount"
         :click-handler="pageChangeHandler"
         :prev-text="'Prev'"
         :next-text="'Next'"
         :container-class="'paginate'"
-        :page-class="'paginate-btn'"
-        :prev-class="'paginate-btn-prev'"
-        :next-class="'paginate-btn-next'"
+        :page-class="'paginate__btn'"
+        :page-link-class="'paginate__btn-link'"
+        :prev-class="'paginate__btn_prev'"
+        :prev-link-class="'paginate__btn-link_prev'"
+        :next-class="'paginate__btn_next'"
+        :next-link-class="'paginate__btn-link_next'"
     />
+    </div>
+    
   </div>
 </template>
 
@@ -43,39 +54,14 @@ export default {
 </script>
 
 <style lang="scss">
-  .paginate {
-    display: flex;
-    list-style: none;
 
-    .paginate-btn {
+  .posts {
 
-      a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        outline: none;
-        width: 40px;
-        height: 40px;
-      }
-
-      &.active {
-        background-color: green;
-      }
-
-      &:hover {
-        background-color: blue;
-      }
-    }
-
-    .paginate-btn-prev,
-    .paginate-btn-next {
+    .posts_container {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      width: 60px;
-      height: 40px;
-      background-color: blue;
+      flex-wrap: wrap;
+      margin: -10px -10px 40px;
     }
   }
+
 </style>
