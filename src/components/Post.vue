@@ -37,6 +37,9 @@ export default {
     font-size: 20px;
     font-weight: bold;
     margin: 0 0 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     .post__title_link {
       color: #273849;
@@ -50,6 +53,9 @@ export default {
   .post__body {
     flex: 1 1 auto;
     p {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       font-size: 16px;
       color: #616161;
     }
